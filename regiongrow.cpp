@@ -92,7 +92,7 @@ void regiongrow(pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud, std::vector<pcl::Poi
 	}
 }
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 	std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> clusters;

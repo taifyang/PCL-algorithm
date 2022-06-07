@@ -28,7 +28,7 @@ void radiusremoval(pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud, pcl::PointCloud<p
 	}
 }
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>);

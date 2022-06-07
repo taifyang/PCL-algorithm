@@ -169,7 +169,7 @@ void normalestimation(pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud, pcl::PointClou
 	}
 }
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 	pcl::PointCloud <pcl::Normal>::Ptr normals(new pcl::PointCloud <pcl::Normal>);

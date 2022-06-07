@@ -49,7 +49,7 @@ void ransac(pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud, int max_iter, float thre
     std::cout << a_final << " " << b_final << " " << c_final << " " << d_final << std::endl;
 }
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 	pcl::io::loadPCDFile<pcl::PointXYZ>("pingfeng_skeleton.pcd", *cloud);

@@ -59,7 +59,7 @@ void voxelgrid(pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud, pcl::PointCloud<pcl::
 	cloud_filtered->push_back(pcl::PointXYZ(centroid[0], centroid[1], centroid[2]));
 }
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>);
