@@ -5,10 +5,10 @@
 #include <pcl/common/transforms.h>
 
 /**
- * @description:			ä½“ç´ æ»¤æ³¢
- * @param cloud				è¾“å…¥ç‚¹äº‘
- * @param cloud_filtered	æ»¤æ³¢ç‚¹äº‘
- * @param leafsize			ä½“ç´ å¤§å°
+ * @description:			ÌåËØÂË²¨
+ * @param cloud				ÊäÈëµãÔÆ
+ * @param cloud_filtered	ÂË²¨µãÔÆ
+ * @param leafsize			ÌåËØ´óĞ¡
  */
 void voxelgrid(pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud_filtered, float leafsize)
 {
@@ -21,42 +21,24 @@ void voxelgrid(pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud, pcl::PointCloud<pcl::
 	int ny = ly / leafsize + 1;
 	int nz = lz / leafsize + 1;
 
-    std::vector<std::pair<int,int>> v;
+	std::vector<pcl::PointCloud<pcl::PointXYZ>> v(nx * ny * nz);
 	for (size_t i = 0; i < cloud->points.size(); i++)
 	{
 		int ix = (cloud->points[i].x - minPt.x) / leafsize;
 		int iy = (cloud->points[i].y - minPt.y) / leafsize;
 		int iz = (cloud->points[i].z - minPt.z) / leafsize;
-		v.push_back(std::pair<int, int>{ix + iy*nx + iz*nx*ny, i});
+		v[ix + iy * nx + iz * nx * ny].push_back(cloud->points[i]);
 	}
 
-    std::sort(v.begin(), v.end(), [](std::pair<int, int> p1, std::pair<int, int>p2) {return p1.first < p2.first; });
-
-	int start = 0;
-    std::vector<int> point_id;
-	pcl::PointCloud<pcl::PointXYZ>::Ptr ptcloud;
-	Eigen::Vector4f centroid;
-	for (int i = start; i < v.size() - 1; ++i)
+	for (int i = 0; i < v.size(); ++i)
 	{
-		if (v[i].first != v[i + 1].first)
+		if (v[i].size())
 		{
-			for (int id = start; id <= i; ++id)	point_id.push_back(v[i].second);
-			ptcloud.reset(new pcl::PointCloud<pcl::PointXYZ>);
-			pcl::copyPointCloud(*cloud, point_id, *ptcloud);
-			pcl::compute3DCentroid(*ptcloud, centroid);
-			cloud_filtered->push_back(pcl::PointXYZ(centroid[0], centroid[1], centroid[2]));
-			start = i + 1;
-			point_id.clear();
-		}
-		else if (v[i].first == v[v.size() - 1].first)
-		{
-			point_id.push_back(v[i].second);
+			Eigen::Vector4f centroid;
+			pcl::compute3DCentroid(v[i], centroid);
+			cloud_filtered->push_back(pcl::PointXYZ(centroid.x(), centroid.y(), centroid.z()));
 		}
 	}
-	ptcloud.reset(new pcl::PointCloud<pcl::PointXYZ>);
-	pcl::copyPointCloud(*cloud, point_id, *ptcloud);
-	pcl::compute3DCentroid(*ptcloud, centroid);
-	cloud_filtered->push_back(pcl::PointXYZ(centroid[0], centroid[1], centroid[2]));
 }
 
 int main(int argc, char* argv[])
@@ -71,4 +53,3 @@ int main(int argc, char* argv[])
 	system("pause");
 	return EXIT_SUCCESS;
 }
-
